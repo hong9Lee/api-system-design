@@ -3,12 +3,14 @@ server:
   shutdown: graceful
 
 spring:
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
       routes:
         - id: api_route
-          uri: http://localhost:30080
           predicates:
             - Path=/api/**
+          uri: http://localhost:30080
           filters:
-            - JwtAuthenticationFilter
+            - name: JwtAuthenticationFilter
