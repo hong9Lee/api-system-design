@@ -14,3 +14,9 @@ spring:
           uri: http://localhost:30080
           filters:
             - name: JwtAuthenticationFilter
+
+        - id: login_route
+          predicates:
+            - Path=/login
+          uri: http://localhost:30080
+

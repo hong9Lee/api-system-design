@@ -33,7 +33,11 @@ public class TokenValidator {
         var entity = new HttpEntity(headers);
 
         try {
-            // auth 모듈과 통신
+            // auth 모듈과 통신하는 것으로 개선 필요
+            // token 검증
+
+
+
         } catch (Exception e) {
             log.error("");
             res.setValid(false);
