@@ -11,8 +11,8 @@ import lombok.*;
 public class TokenVerifyResponse {
     private boolean isValid;
     private String invalidMessage;
-//    private UserTokenVO userToken;
-//    private Long userSeq;
+    private UserTokenVO userToken;
+    private Long userSeq;
     private boolean isAdmin;
     private String serviceType;
 }

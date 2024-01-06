@@ -43,20 +43,19 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             HttpHeaders headers = request.getHeaders();
 
             List<String> tokens = headers.get("X-CTM-AUTH");
-            if(tokens == null || tokens.isEmpty()) {
+            if (tokens == null || tokens.isEmpty()) {
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
 
             String header = tokens.get(0);
-            var tokenVerifyResponse = tokenVerifyResponseCache.get(header, tokenValidator::validate);
-            if(!tokenVerifyResponse.isValid()) {
+            var tokenVerifyResponse = tokenVerifyResponseCache.get(header,
+                    tokenValidator::validate);
+            if (!tokenVerifyResponse.isValid()) {
                 log.info("failed to validate token. header: {}, message: {}", header, tokenVerifyResponse.getInvalidMessage());
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
-
-
             return chain.filter(exchange);
         };
     }
