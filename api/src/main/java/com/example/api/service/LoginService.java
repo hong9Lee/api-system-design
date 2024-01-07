@@ -3,6 +3,7 @@ package com.example.api.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.api.model.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.jose4j.jwt.JwtClaims;
 import org.springframework.stereotype.Service;
@@ -13,23 +14,14 @@ import java.util.Date;
 @Slf4j
 public class LoginService {
     private String SECRET_KEY = "abcdefg";
+    private Long EXPIRE_MINUTE = 10L;
 
-    public String tokenProvider() {
-//        return Jwts.builder()
-//                .setSubject("test_token")
-//                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-//                .compact();
-
-        Long expireMinute = 5L;
+    public String tokenProvider(UserLoginVO userLoginVO) {
         JWTCreator.Builder builder = JWT.create()
                 .withIssuer("hong-test")
                 .withAudience("test-web")
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withNotBefore(new Date(System.currentTimeMillis()));
-
-        long expireTimeMills = System.currentTimeMillis() + (expireMinute * 60 * 1000);
-        builder.withExpiresAt(new Date(expireTimeMills));
-
 
         JwtClaims jwtClaims = new JwtClaims();
         jwtClaims.setClaim("user", "1");
@@ -47,6 +39,10 @@ public class LoginService {
             });
         }
 
+
+
+        long expireTimeMills = System.currentTimeMillis() + (EXPIRE_MINUTE * 60 * 1000);
+        builder.withExpiresAt(new Date(expireTimeMills));
         return builder.sign(Algorithm.HMAC256(SECRET_KEY));
     }
 }

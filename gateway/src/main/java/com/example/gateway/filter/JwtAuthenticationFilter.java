@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
     @Override
     public GatewayFilter apply(Config config) {
-        log.info("apply info");
         return (exchange, chain) -> {
             log.info("JwtAuthenticationFilter is applied to request: {}", exchange.getRequest().getPath());
 
