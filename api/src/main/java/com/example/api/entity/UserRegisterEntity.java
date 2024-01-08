@@ -15,7 +15,6 @@ public class UserRegisterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_register_seq")
     private long userRegisterSeq;
-
     private String email;
     private String userPw;
 

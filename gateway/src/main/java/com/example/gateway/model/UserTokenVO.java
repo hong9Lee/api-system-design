@@ -1,6 +1,5 @@
 package com.example.gateway.model;
 
-import io.micrometer.common.util.StringUtils;
 import lombok.*;
 import org.jose4j.jwt.JwtClaims;
 

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.api.model.UserLoginVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jose4j.jwt.JwtClaims;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,17 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class LoginService {
+    private final SecurityService securityService;
     private String SECRET_KEY = "abcdefg";
     private Long EXPIRE_MINUTE = 10L;
 
     public String tokenProvider(UserLoginVO userLoginVO) {
+        String encryptEmail = securityService.encryptEmail(userLoginVO.getUserId());
+        String encodePwd = securityService.encodePassword(userLoginVO.getUserPw());
+
         JWTCreator.Builder builder = JWT.create()
                 .withIssuer("hong-test")
                 .withAudience("test-web")
