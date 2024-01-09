@@ -40,4 +40,22 @@ public class SecurityService {
             return email;
         }
     }
+
+    public String decryptEmail(String email) {
+
+        if(StringUtils.isEmpty(email)) {
+            return null;
+        }
+
+        try {
+            byte[] decodeBase64 = Base64.decodeBase64(email);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(encryptKey.getBytes(StandardCharsets.UTF_8), "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(2, secretKeySpec);
+            byte[] bytes = cipher.doFinal(decodeBase64);
+            return new String(bytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

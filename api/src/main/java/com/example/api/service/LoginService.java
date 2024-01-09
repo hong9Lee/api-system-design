@@ -23,6 +23,8 @@ public class LoginService {
         String encryptEmail = securityService.encryptEmail(userLoginVO.getUserId());
         String encodePwd = securityService.encodePassword(userLoginVO.getUserPw());
 
+
+
         JWTCreator.Builder builder = JWT.create()
                 .withIssuer("hong-test")
                 .withAudience("test-web")
