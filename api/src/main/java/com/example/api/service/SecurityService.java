@@ -22,7 +22,7 @@ public class SecurityService {
         return encoder.encode(password);
     }
 
-    public String encryptEmail(String email) {
+    public String encrypt(String email) {
 
         if(StringUtils.isEmpty(email)) {
             return null;
@@ -41,7 +41,7 @@ public class SecurityService {
         }
     }
 
-    public String decryptEmail(String email) {
+    public String decrypt(String email) {
 
         if(StringUtils.isEmpty(email)) {
             return null;

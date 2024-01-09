@@ -2,10 +2,12 @@ package com.example.api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
+@Getter
 @Table(name = "user_register")
 @AllArgsConstructor
 @NoArgsConstructor
