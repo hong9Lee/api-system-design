@@ -39,6 +39,7 @@ public class LoginService {
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withNotBefore(new Date(System.currentTimeMillis()));
 
+        // TODO: UserLoginVO 내부에서 JwtClaim 생성 추가 필요
         JwtClaims jwtClaims = new JwtClaims();
         jwtClaims.setClaim("user", "1");
         jwtClaims.setClaim("serviceType", "test");
