@@ -3,12 +3,10 @@ package com.example.api.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.api.entity.UserRegisterEntity;
 import com.example.api.model.UserLoginVO;
 import com.example.api.repository.UserRegisterEntityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jose4j.jwt.JwtClaims;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,12 +37,7 @@ public class LoginService {
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withNotBefore(new Date(System.currentTimeMillis()));
 
-        // TODO: UserLoginVO 내부에서 JwtClaim 생성 추가 필요
-        JwtClaims jwtClaims = new JwtClaims();
-        jwtClaims.setClaim("user", "1");
-        jwtClaims.setClaim("serviceType", "test");
-
-
+        var jwtClaims = userLoginVO.createJwtClaims(userRegisterEntity);
         if(jwtClaims != null) {
             jwtClaims.getClaimNames().forEach(claimName -> {
                 try {
@@ -55,8 +48,6 @@ public class LoginService {
                 }
             });
         }
-
-
 
         long expireTimeMills = System.currentTimeMillis() + (EXPIRE_MINUTE * 60 * 1000);
         builder.withExpiresAt(new Date(expireTimeMills));

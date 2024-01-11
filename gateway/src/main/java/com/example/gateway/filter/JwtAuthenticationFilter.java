@@ -22,6 +22,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     @Resource
     private Cache<String, TokenVerifyResponse> tokenVerifyResponseCache;
 
+    private final String X_GATEWAY_SECRET_KEY = "967869b7-56b8-4766-8473-7baa04a499ab";
+
+
     @Resource
     private TokenValidator tokenValidator;
 
@@ -55,7 +58,12 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
-            return chain.filter(exchange);
+
+            ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate()
+                    .header("X-Gateway-Auth", X_GATEWAY_SECRET_KEY)
+                    .build();
+
+            return chain.filter(exchange.mutate().request(serverHttpRequest).build());
         };
     }
 }

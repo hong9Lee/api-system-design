@@ -23,10 +23,7 @@ public class SecurityService {
     }
 
     public String encrypt(String email) {
-
-        if(StringUtils.isEmpty(email)) {
-            return null;
-        }
+        if (StringUtils.isEmpty(email)) return null;
 
         try {
             byte[] bytes = email.getBytes(StandardCharsets.UTF_8);
@@ -42,10 +39,7 @@ public class SecurityService {
     }
 
     public String decrypt(String email) {
-
-        if(StringUtils.isEmpty(email)) {
-            return null;
-        }
+        if (StringUtils.isEmpty(email)) return null;
 
         try {
             byte[] decodeBase64 = Base64.decodeBase64(email);

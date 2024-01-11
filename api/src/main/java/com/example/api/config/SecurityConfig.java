@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @Slf4j
@@ -14,13 +13,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests(authz -> authz
-                        .requestMatchers("/login/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(withDefaults());
+        http.authorizeHttpRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .anyRequest().permitAll()
+                .and().httpBasic()
+                .and().cors()
+                .and().csrf().disable()
+                .formLogin().disable();
         return http.build();
     }
 }
