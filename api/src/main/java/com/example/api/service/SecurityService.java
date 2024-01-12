@@ -28,7 +28,7 @@ public class SecurityService {
         try {
             byte[] bytes = email.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec secretKeySpec = new SecretKeySpec(encryptKey.getBytes(StandardCharsets.UTF_8), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(1, secretKeySpec);
             byte[] encrypted = cipher.doFinal(bytes);
             return Base64.encodeBase64String(encrypted);
@@ -44,7 +44,7 @@ public class SecurityService {
         try {
             byte[] decodeBase64 = Base64.decodeBase64(email);
             SecretKeySpec secretKeySpec = new SecretKeySpec(encryptKey.getBytes(StandardCharsets.UTF_8), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(2, secretKeySpec);
             byte[] bytes = cipher.doFinal(decodeBase64);
             return new String(bytes, StandardCharsets.UTF_8);
