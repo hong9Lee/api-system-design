@@ -1,3 +1,4 @@
 rootProject.name = 'web'
 include ':api'
 include ':gateway'
+include ':auth'
