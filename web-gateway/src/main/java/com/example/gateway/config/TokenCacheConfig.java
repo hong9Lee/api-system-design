@@ -1,6 +1,6 @@
 package com.example.gateway.config;
 
-import com.example.gateway.model.TokenVerifyResponse;
+import com.example.shared.model.TokenVerifyResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.RequiredArgsConstructor;

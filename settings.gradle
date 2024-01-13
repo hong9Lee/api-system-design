@@ -1,4 +1,5 @@
 rootProject.name = 'web'
-include ':api'
-include ':gateway'
-include ':auth'
+include ':web-api'
+include ':web-gateway'
+include ':web-auth'
+include ':web-shared'

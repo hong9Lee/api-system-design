@@ -1,7 +1,7 @@
 package com.example.gateway.filter;
 
 import com.example.gateway.auth.TokenValidator;
-import com.example.gateway.model.TokenVerifyResponse;
+import com.example.shared.model.TokenVerifyResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

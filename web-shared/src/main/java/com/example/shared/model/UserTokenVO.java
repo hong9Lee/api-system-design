@@ -1,4 +1,4 @@
-package com.example.gateway.model;
+package com.example.shared.model;
 
 import lombok.*;
 import org.jose4j.jwt.JwtClaims;

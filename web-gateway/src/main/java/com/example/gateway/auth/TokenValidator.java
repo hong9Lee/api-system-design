@@ -4,8 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Verification;
-import com.example.gateway.model.TokenVerifyResponse;
-import com.example.gateway.model.UserTokenVO;
+
+import com.example.shared.model.TokenVerifyResponse;
+import com.example.shared.model.UserTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
