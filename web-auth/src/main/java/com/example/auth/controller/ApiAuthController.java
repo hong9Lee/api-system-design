@@ -14,6 +14,6 @@ public class ApiAuthController {
     @GetMapping(value = "/oauth/api/validate")
     public void validate(@RequestParam("token") String token) {
 
-        log.info("==> auth module validate logger");
+        log.info("==> auth module validate logger :{}", token);
     }
 }
