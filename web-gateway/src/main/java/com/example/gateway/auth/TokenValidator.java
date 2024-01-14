@@ -4,24 +4,28 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Verification;
-
+import com.example.gateway.config.InfoProps;
 import com.example.shared.model.TokenVerifyResponse;
 import com.example.shared.model.UserTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class TokenValidator {
     private String SECRET_KEY = "abcdefg";
+    private final RestTemplate restTemplate;
+    private final InfoProps infoProps;
 
     public TokenVerifyResponse validate(final String header) {
 
@@ -38,14 +42,21 @@ public class TokenValidator {
             token = StringUtils.replaceOnce(token, "Bearer ", "");
         }
 
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", "application/json; charset=utf-8");
-//        var entity = new HttpEntity(headers);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        var entity = new HttpEntity(headers);
 
         try {
             // auth 모듈과 통신하는 것으로 개선 필요
             // token 검증
 
+            ResponseEntity<TokenVerifyResponse> exchange = restTemplate.exchange(infoProps.getAuth() + "/oauth/api/validate?token=" + token,
+                    HttpMethod.GET, entity, TokenVerifyResponse.class);
+
+            return exchange.getBody();
+
+
+            /*
             boolean verifyToken = verifyToken(token);
             if (!verifyToken) return getInvalidTokenVO();
 
@@ -59,6 +70,8 @@ public class TokenValidator {
                     .serviceType(userTokenVO.getServiceType())
                     .userSeq(Long.parseLong(userTokenVO.getUserSeq()))
                     .build();
+
+             */
         } catch (Exception e) {
             getInvalidTokenVO();
         }

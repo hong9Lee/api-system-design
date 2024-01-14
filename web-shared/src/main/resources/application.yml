@@ -1,0 +1,3 @@
+server:
+  port: 30100
+  shutdown: graceful

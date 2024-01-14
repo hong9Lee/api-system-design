@@ -20,3 +20,5 @@ spring:
             - Path=/login
           uri: http://localhost:30080
 
+info:
+  auth: http://localhost:30100
