@@ -15,4 +15,9 @@ public class TokenVerifyResponse {
     private Long userSeq;
     private boolean isAdmin;
     private String serviceType;
+
+    public TokenVerifyResponse(boolean isValid, String invalidMessage) {
+        this.isValid = isValid;
+        this.invalidMessage = invalidMessage;
+    }
 }

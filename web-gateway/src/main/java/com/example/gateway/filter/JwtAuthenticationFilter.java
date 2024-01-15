@@ -13,6 +13,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
 
     @Resource
-    private Cache<String, TokenVerifyResponse> tokenVerifyResponseCache;
+    private Cache<String, Mono<TokenVerifyResponse>> tokenVerifyResponseCache;
     private final String X_GATEWAY_SECRET_KEY = "967869b7-56b8-4766-8473-7baa04a499ab";
     @Resource
     private TokenValidator tokenValidator;
@@ -49,15 +50,16 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             }
 
             String header = tokens.get(0);
-            var tokenVerifyResponse = tokenVerifyResponseCache.get(header,
-                    tokenValidator::validate);
-            if (!tokenVerifyResponse.isValid()) {
-                log.info("failed to validate token. header: {}, message: {}", header, tokenVerifyResponse.getInvalidMessage());
-                response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                return response.setComplete();
-            }
+            return Mono.defer(() -> tokenVerifyResponseCache.get(header, tokenValidator::validate))
+                    .flatMap(tokenVerifyResponse -> {
+                        if (!tokenVerifyResponse.isValid()) {
+                            log.info("Failed to validate token. header: {}, message: {}", header, tokenVerifyResponse.getInvalidMessage());
+                            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                            return response.setComplete();
+                        }
 
-            return chain.filter(exchange.mutate().request(getServerHttpRequest(exchange)).build());
+                        return chain.filter(exchange.mutate().request(getServerHttpRequest(exchange)).build());
+                    });
         };
     }
 

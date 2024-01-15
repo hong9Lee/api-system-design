@@ -10,30 +10,36 @@ import lombok.extern.slf4j.Slf4j;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
 public class ApiTokenService {
     private String SECRET_KEY = "abcdefg";
 
-    public TokenVerifyResponse verifyToken(String token) {
-        boolean verifyToken = verifyApiToken(token);
-        if (!verifyToken) return getInvalidTokenVO();
+    public Mono<TokenVerifyResponse> verifyToken(String token) {
+        return Mono.defer(() -> {
+            boolean verifyToken = verifyApiToken(token);
+            if (!verifyToken) return Mono.just(getInvalidTokenVO());
 
-        try {
-            var jwtConsumer = getJwtConsumer();
-            var jwtClaims = jwtConsumer.processToClaims(token);
-            var userTokenVO = UserTokenVO.fromJwtClaims(jwtClaims);
-            return TokenVerifyResponse.builder()
-                    .isValid(true)
-                    .invalidMessage("Valid Token")
-                    .userToken(userTokenVO)
-                    .serviceType(userTokenVO.getServiceType())
-                    .userSeq(Long.parseLong(userTokenVO.getUserSeq()))
-                    .build();
-        } catch (Exception e) {
-            return TokenVerifyResponse.builder().isValid(false).invalidMessage("Invalid Token").build();
-        }
+            try {
+                var jwtConsumer = getJwtConsumer();
+                var jwtClaims = jwtConsumer.processToClaims(token);
+                var userTokenVO = UserTokenVO.fromJwtClaims(jwtClaims);
+                return Mono.just(TokenVerifyResponse.builder()
+                        .isValid(true)
+                        .invalidMessage("Valid Token")
+                        .userToken(userTokenVO)
+                        .serviceType(userTokenVO.getServiceType())
+                        .userSeq(Long.parseLong(userTokenVO.getUserSeq()))
+                        .build());
+            } catch (Exception e) {
+                return Mono.just(TokenVerifyResponse.builder()
+                        .isValid(false)
+                        .invalidMessage("Invalid Token")
+                        .build());
+            }
+        });
     }
 
     private boolean verifyApiToken(String token) {
