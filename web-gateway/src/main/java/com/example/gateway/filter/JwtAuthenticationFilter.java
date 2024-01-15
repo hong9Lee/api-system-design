@@ -49,6 +49,11 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 return response.setComplete();
             }
 
+            /**
+             * 메인 스레드가 비동기 요청을 보내고 서브 스레드(워커 스레드, 이벤트 루프 스레드 등)에서 요청이 처리된다.
+             * 이 전체 과정은 메인 스레드를 차단하지 않는다.
+             * 따라서 메인 스레드는 다른 요청을 계속 받고 처리할 수 있으며, 시스템의 전체적인 처리량과 반응성이 향상된다.
+             */
             String header = tokens.get(0);
             return Mono.defer(() -> tokenVerifyResponseCache.get(header, tokenValidator::validate))
                     .flatMap(tokenVerifyResponse -> {
