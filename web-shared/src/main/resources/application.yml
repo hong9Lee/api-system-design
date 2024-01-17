@@ -1,3 +1,11 @@
 server:
   port: 30100
   shutdown: graceful
+
+login:
+  key: "abcdefg"
+  expire: 10
+
+gateway:
+  key: "967869b7-56b8-4766-8473-7baa04a499ab"
+  header: "X-Gateway-Auth"

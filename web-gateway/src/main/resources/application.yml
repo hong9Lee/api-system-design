@@ -22,3 +22,5 @@ spring:
 
 info:
   auth: http://localhost:30100
+
+

@@ -4,8 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Verification;
+import com.example.shared.config.LoginProps;
 import com.example.shared.model.TokenVerifyResponse;
 import com.example.shared.model.UserTokenVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
@@ -14,8 +16,9 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ApiTokenService {
-    private String SECRET_KEY = "abcdefg";
+    private final LoginProps loginProps;
 
     public Mono<TokenVerifyResponse> verifyToken(String token) {
         return Mono.defer(() -> {
@@ -45,7 +48,7 @@ public class ApiTokenService {
     private boolean verifyApiToken(String token) {
         try {
             Verification verification = JWT.require(
-                    Algorithm.HMAC256(SECRET_KEY));
+                    Algorithm.HMAC256(loginProps.getKey()));
 //                    .withSubject("hong-test");
             JWTVerifier jwtVerifier = verification.build();
             jwtVerifier.verify(token);

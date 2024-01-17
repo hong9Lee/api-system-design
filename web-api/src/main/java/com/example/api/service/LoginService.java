@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.api.model.UserLoginVO;
 import com.example.api.repository.UserRegisterEntityRepository;
+import com.example.shared.config.LoginProps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +20,7 @@ public class LoginService {
     private final SecurityService securityService;
     private final UserRegisterEntityRepository userRegisterEntityRepository;
     private final PasswordEncoder passwordEncoder;
-    private String SECRET_KEY = "abcdefg";
-    private Long EXPIRE_MINUTE = 10L;
+    private final LoginProps loginProps;
 
     public String tokenProvider(UserLoginVO userLoginVO) {
         String encryptEmail = securityService.encrypt(userLoginVO.getUserId());
@@ -49,8 +49,9 @@ public class LoginService {
             });
         }
 
-        long expireTimeMills = System.currentTimeMillis() + (EXPIRE_MINUTE * 60 * 1000);
+        // TODO: props null로 전달되는 문제 해결 필요
+        long expireTimeMills = System.currentTimeMillis() + (loginProps.getExpire() * 60 * 1000);
         builder.withExpiresAt(new Date(expireTimeMills));
-        return builder.sign(Algorithm.HMAC256(SECRET_KEY));
+        return builder.sign(Algorithm.HMAC256(loginProps.getKey()));
     }
 }
