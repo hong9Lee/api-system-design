@@ -23,4 +23,6 @@ spring:
 info:
   auth: http://localhost:30100
 
-
+secret:
+  key: "967869b7-56b8-4766-8473-7baa04a499ab"
+  header: "X-Gateway-Auth"

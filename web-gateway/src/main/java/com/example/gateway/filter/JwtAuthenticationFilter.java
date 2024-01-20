@@ -1,7 +1,7 @@
 package com.example.gateway.filter;
 
 import com.example.gateway.auth.TokenValidator;
-import com.example.shared.config.GatewaySecretProps;
+import com.example.gateway.config.SecretProps;
 import com.example.shared.model.TokenVerifyResponse;
 import com.github.benmanes.caffeine.cache.Cache;
 import jakarta.annotation.Resource;
@@ -26,14 +26,14 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     private Cache<String, Mono<TokenVerifyResponse>> tokenVerifyResponseCache;
     @Resource
     private TokenValidator tokenValidator;
-    private final GatewaySecretProps gatewaySecretProps;
+    private final SecretProps secretProps;
 
     public static class Config {
     }
 
-    public JwtAuthenticationFilter(GatewaySecretProps gatewaySecretProps) {
+    public JwtAuthenticationFilter(SecretProps secretProps) {
         super(Config.class);
-        this.gatewaySecretProps = gatewaySecretProps;
+        this.secretProps = secretProps;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
     private ServerHttpRequest getServerHttpRequest(ServerWebExchange exchange) {
         ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate()
-                .header("X-Gateway-Auth", gatewaySecretProps.getKey())
+                .header("X-Gateway-Auth", secretProps.getKey())
                 .build();
         return serverHttpRequest;
     }
