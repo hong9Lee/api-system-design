@@ -48,7 +48,7 @@ public class ApiTokenService {
     private boolean verifyApiToken(String token) {
         try {
             Verification verification = JWT.require(
-                    Algorithm.HMAC256(loginProps.getKey()));
+                    Algorithm.HMAC256("abcdefg")); // TODO: loginProps auth에만 전달 안되는 문제 확인 필요
 //                    .withSubject("hong-test");
             JWTVerifier jwtVerifier = verification.build();
             jwtVerifier.verify(token);

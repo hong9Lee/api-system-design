@@ -49,7 +49,6 @@ public class LoginService {
             });
         }
 
-        // TODO: props null로 전달되는 문제 해결 필요
         long expireTimeMills = System.currentTimeMillis() + (loginProps.getExpire() * 60 * 1000);
         builder.withExpiresAt(new Date(expireTimeMills));
         return builder.sign(Algorithm.HMAC256(loginProps.getKey()));
