@@ -15,6 +15,21 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: test_user
+    password: test
+
+  cloud:
+    function:
+      definition: defaultMessageProducer;
+    stream:
+      bindings:
+        defaultMessageProducer-out-0:
+          binder: rabbit
+          destination: "web-defaultMessageProducer"
+
 login:
   key: "abcdefg"
   expire: 10
