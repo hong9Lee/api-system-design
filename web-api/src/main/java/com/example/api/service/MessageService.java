@@ -6,7 +6,6 @@ import com.example.shared.model.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @Service
@@ -14,7 +13,7 @@ import java.util.UUID;
 @Slf4j
 public class MessageService {
 
-    private DefaultMessageProducer defaultMessageProducer;
+    private final DefaultMessageProducer defaultMessageProducer;
 
     public void messageProducer() {
         var randomUuid = UUID.randomUUID().toString();

@@ -11,7 +11,7 @@ import org.springframework.cloud.stream.function.StreamBridge;
 @RequiredArgsConstructor
 public class DefaultMessageProducer {
 
-    private StreamBridge streamBridge;
+    private final StreamBridge streamBridge;
 
     public void notify(DefaultMessage defaultMessage) {
         boolean send = streamBridge.send("defaultMessageProducer-out-0", defaultMessage);
