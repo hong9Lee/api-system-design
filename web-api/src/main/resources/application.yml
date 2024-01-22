@@ -28,7 +28,7 @@ spring:
       bindings:
         defaultMessageProducer-out-0:
           binder: rabbit
-          destination: "web-defaultMessageProducer"
+          destination: "web-defaultMessage"
 
 login:
   key: "abcdefg"
