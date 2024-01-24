@@ -13,10 +13,18 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping("/api/msg")
-    public String sendMessage() {
-        log.info("msg controller init");
-        messageService.messageProducer();
+    @GetMapping("/api/mq/msg")
+    public String sendMqMessage() {
+        log.info("mq msg send controller init");
+        messageService.mqMessageProducer();
+        return "OK";
+    }
+
+    @GetMapping("/api/redis/msg")
+    public String sendRedisMessage() {
+        log.info("redis msg send controller init");
+        messageService.redisMessagePublisher();
         return "OK";
     }
 }
+

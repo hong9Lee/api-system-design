@@ -21,10 +21,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // mq
     implementation 'org.springframework.cloud:spring-cloud-stream:4.0.3'
 //    implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit:3.1.6'
 
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Spring Data JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
