@@ -9,6 +9,10 @@ spring:
     username: test_user
     password: test
 
+  redis:
+    host: localhost
+    port: 6379
+
   cloud:
     function:
       definition: defaultBroadcastMessageConsumer;
