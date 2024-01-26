@@ -15,6 +15,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
   redis:
     host: localhost
     port: 6379
@@ -37,3 +40,13 @@ spring:
 login:
   key: "abcdefg"
   expire: 10
+
+
+logging:
+  level:
+    org:
+      apache:
+        kafka:
+          clients: ERROR
+          client:
+            ClientUtils: ERROR

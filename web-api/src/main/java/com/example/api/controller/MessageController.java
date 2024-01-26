@@ -26,5 +26,12 @@ public class MessageController {
         messageService.redisMessagePublisher();
         return "OK";
     }
+
+    @GetMapping("/api/kafka/msg")
+    public String sendKafkaMessage() {
+        log.info("kafka msg send controller init");
+        messageService.kafkaMessageProducer();
+        return "OK";
+    }
 }
 
