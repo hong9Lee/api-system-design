@@ -13,7 +13,7 @@ public class RedisPubService {
     private final StringRedisTemplate stringRedisTemplate;
 
     public void sendDefaultMessage(String msg) {
-        log.info("redis sendDefaultMessage :{}", msg);
+        log.info("redis Received DefaultMessage :{}", msg);
         stringRedisTemplate.convertAndSend("defaultMessageTopic", msg);
     }
 }

@@ -23,7 +23,7 @@ spring:
     port: 26379
 
   rabbitmq:
-    host: local-rabbitmq
+    host: localhost
     port: 25672
     username: test_user
     password: test

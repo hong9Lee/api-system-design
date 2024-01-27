@@ -1,5 +1,5 @@
 server:
-  port: 30100
+  port: 30110
   shutdown: graceful
 
 #spring:
