@@ -4,14 +4,14 @@ server:
 
 spring:
   rabbitmq:
-    host: localhost
-    port: 5672
+    host: local-rabbitmq
+    port: 25672
     username: test_user
     password: test
 
   redis:
     host: localhost
-    port: 6379
+    port: 26379
 
   cloud:
     function:
@@ -21,3 +21,18 @@ spring:
         defaultBroadcastMessageConsumer-in-0:
           binder: rabbit
           destination: "web-defaultMessage"
+
+logging:
+  level:
+    org:
+      springframework:
+        amqp:
+          rabbit:
+            listener: ERROR
+            connection:
+              CachingConnectionFactory: ERROR
+      apache:
+        kafka:
+          clients: ERROR
+          client:
+            ClientUtils: ERROR

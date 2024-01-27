@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.bitbucket.b_c:jose4j:0.6.2'
 
     // redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation "org.apache.httpcomponents.core5:httpcore5:${dependencyManagement.importedProperties['httpcore5.version']}"
     implementation "org.apache.httpcomponents.core5:httpcore5-h2:${dependencyManagement.importedProperties['httpcore5.version']}"
