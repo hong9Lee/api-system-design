@@ -1,8 +1,0 @@
-server:
-  port: 30110
-  shutdown: graceful
-
-#spring:
-#  redis:
-#    host: localhost
-#    port: 26379
