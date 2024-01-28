@@ -13,6 +13,9 @@ spring:
     host: localhost
     port: 26379
 
+  kafka:
+    bootstrap-servers: localhost:29092
+
   cloud:
     function:
       definition: defaultBroadcastMessageConsumer;
