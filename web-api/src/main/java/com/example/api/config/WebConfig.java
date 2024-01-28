@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new GatewayInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns(List.of("/actuator/**", "/login/**"));
+                .excludePathPatterns(List.of("/actuator/**", "/login/**", "/coupon/**"));
 
     }
 }

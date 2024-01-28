@@ -20,6 +20,11 @@ spring:
             - Path=/login
           uri: http://localhost:30080
 
+        - id: coupon_route
+          predicates:
+            - Path=/coupon/**
+          uri: http://localhost:30080
+
 info:
   auth: http://localhost:30100
 
