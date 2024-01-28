@@ -1,4 +1,4 @@
-package com.example.webwebsocket.message;
+package com.example.worker.message;
 
 import com.example.shared.message.DefaultMessage;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.webwebsocket;
+package com.example.worker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-public class WebWebsocketApplication {
+public class WorkerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebWebsocketApplication.class, args);
+        SpringApplication.run(WorkerApplication.class, args);
     }
 
 }

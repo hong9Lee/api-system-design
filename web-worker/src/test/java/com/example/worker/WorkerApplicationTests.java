@@ -1,10 +1,10 @@
-package com.example.webwebsocket;
+package com.example.worker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WebWebsocketApplicationTests {
+class WorkerApplicationTests {
 
     @Test
     void contextLoads() {

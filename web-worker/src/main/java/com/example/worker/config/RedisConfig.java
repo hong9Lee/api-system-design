@@ -1,6 +1,6 @@
-package com.example.webwebsocket.config;
+package com.example.worker.config;
 
-import com.example.webwebsocket.service.redis.RedisSubscriber;
+import com.example.worker.service.redis.RedisSubscriber;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;

@@ -1,4 +1,4 @@
-package com.example.webwebsocket.service.redis;
+package com.example.worker.service.redis;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

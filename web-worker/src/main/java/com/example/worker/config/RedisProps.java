@@ -1,4 +1,4 @@
-package com.example.webwebsocket.config;
+package com.example.worker.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
