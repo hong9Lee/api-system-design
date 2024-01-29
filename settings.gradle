@@ -4,3 +4,5 @@ include ':web-gateway'
 include ':web-auth'
 include ':web-shared'
 include ':web-worker'
+include ':web-data'
+

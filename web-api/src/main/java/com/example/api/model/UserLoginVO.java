@@ -1,10 +1,8 @@
 package com.example.api.model;
 
-import com.example.api.entity.UserRegisterEntity;
+import data.entity.UserRegisterEntity;
 import lombok.*;
 import org.jose4j.jwt.JwtClaims;
-
-import java.util.Optional;
 
 @Getter
 @Setter

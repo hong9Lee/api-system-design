@@ -2,8 +2,8 @@ package com.example.api.service;
 
 import com.example.api.message.coupon.CouponCreateProducer;
 import com.example.api.model.CouponIssueVO;
-import com.example.api.repository.CouponIssuedUserEntityRepository;
-import com.example.api.repository.IssueCouponUserRepository;
+import data.repository.jpa.CouponIssuedUserEntityRepository;
+import data.repository.redis.IssueCouponUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class CouponService {
             return;
         }
 
-        long count = issueCouponUserRepository.increment();
+        long count = issueCouponUserRepository.increment(ISSUE_COUPON_USER_COUNT_KEY);
         if(count > 10) {
             log.warn("쿠폰이 전부 소진되었습니다.");
             return;
@@ -43,14 +43,14 @@ public class CouponService {
     }
 
     public boolean isCachedUser(Long userId) {
-        Long issue = issueCouponUserRepository.setUserId(userId);
+        Long issue = issueCouponUserRepository.setUserId(ISSUE_COUPON_USER_KEY, userId);
         if(issue == 1) return true;
 
         /** 캐시 히트되지 않은 경우, db 조회하여 캐싱처리. */
         Boolean isIssued = couponIssuedUserEntityRepository.existsById(userId);
 
         if(!isIssued) {
-            issueCouponUserRepository.setUserId(userId);
+            issueCouponUserRepository.setUserId(ISSUE_COUPON_USER_KEY, userId);
             return true;
         }
 

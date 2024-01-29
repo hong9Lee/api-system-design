@@ -1,7 +1,7 @@
 package com.example.worker.message.coupon;
 
-import com.example.worker.entity.CouponIssuedUserEntity;
-import com.example.worker.repository.CouponIssuedUserEntityRepository;
+import data.entity.CouponIssuedUserEntity;
+import data.repository.jpa.CouponIssuedUserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

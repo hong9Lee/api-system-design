@@ -1,6 +1,6 @@
-package com.example.worker.repository;
+package data.repository.jpa;
 
-import com.example.worker.entity.CouponIssuedUserEntity;
+import data.entity.CouponIssuedUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CouponIssuedUserEntityRepository extends JpaRepository<CouponIssuedUserEntity, Long> {
