@@ -61,9 +61,9 @@ services:
     ports:
       - "26379:6379"  # 호스트의 26379 포트와 컨테이너의 6379 포트(기본 Redis 포트)를 매핑
 
-  # 테스트를 위한 ngrinder 추가
   controller:
-    image: ngrinder/controller:3.5.6
+    image: ngrinder/controller:3.5.3
+    platform: linux/amd64
     restart: always
     ports:
       - "9000:80"
@@ -73,7 +73,8 @@ services:
       - ./ngrinder-controller:/opt/ngrinder-controller
 
   agent:
-    image: ngrinder/agent:3.5.6
+    image: ngrinder/agent:3.5.3
+    platform: linux/amd64
     restart: always
     links:
       - controller
