@@ -34,7 +34,7 @@ public class CouponService {
         }
 
         long count = issueCouponUserRepository.increment(ISSUE_COUPON_USER_COUNT_KEY);
-        if(count > 10000000) {
+        if(count > 1000000000) {
             log.warn("쿠폰이 전부 소진되었습니다.");
             return;
         }
