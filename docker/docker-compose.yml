@@ -23,7 +23,7 @@ services:
     ports:
       - "2181:2181"
     environment:
-      ZOO_SERVER_JVMFLAGS: "-Xms512M -Xmx512M"
+      ZOO_SERVER_JVMFLAGS: "-Xms2G -Xmx2G"
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
@@ -36,7 +36,7 @@ services:
       - "9092:9092"
       - "29092:29092"
     environment:
-      KAFKA_HEAP_OPTS: "-Xms1G -Xmx1G"
+      ZOO_SERVER_JVMFLAGS: "-Xms2G -Xmx2G"
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
