@@ -1,7 +1,6 @@
-# Java 17 베이스 이미지 사용
 FROM openjdk:17
 
-# 애플리케이션 파일 복사
-COPY ../../web-api/build/libs/api.jar api.jar
+COPY ../../web-api/build/libs/api.jar /api.jar
+ENV SPRING_PROFILES_ACTIVE=docker
 
-ENTRYPOINT ["java", "-jar", "/api.jar"]
+ENTRYPOINT ["java", "-Xmx4g", "-jar", "/api.jar"]

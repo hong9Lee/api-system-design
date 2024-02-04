@@ -1,5 +1,5 @@
 FROM openjdk:17
 
-COPY ../../web-api/build/libs/api.jar eureka-server.jar
+COPY ../../web-eureka/build/libs/eureka.jar eureka-server.jar
 
-ENTRYPOINT ["java", "-jar", "/eureka-server.jar"]
+ENTRYPOINT ["java", "-Xmx4g", "-jar", "/eureka-server.jar"]

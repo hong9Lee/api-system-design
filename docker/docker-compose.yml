@@ -3,30 +3,42 @@ version: "3.8"
 services:
   eureka-server:
     build:
-      context: ./eureka
+      context: ../
+      dockerfile: docker/eureka/Dockerfile
     ports:
-      - "8761:8761"
+      - "8762:8761"
 
   api-instance-1:
     image: api-service-image:latest
     build:
-      context: ./instance
+      context: ../
+      dockerfile: docker/instance/Dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8081
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - local-db
     ports:
       - "8081:8081"
+    networks:
+      - local-net
 
   api-instance-2:
     image: api-service-image:latest
     build:
-      context: ./instance
+      context: ../
+      dockerfile: docker/instance/Dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8082
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - local-db
     ports:
       - "8082:8082"
-
+    networks:
+      - local-net
 
   local-db:
     image: mysql:8-oracle
@@ -43,6 +55,8 @@ services:
       nofile:
         soft: 20000
         hard: 40000
+    networks:
+      - local-net
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
