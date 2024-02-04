@@ -7,6 +7,8 @@ services:
       dockerfile: docker/eureka/Dockerfile
     ports:
       - "8762:8761"
+    networks:
+      - local-net
 
   api-instance-1:
     image: api-service-image:latest
@@ -18,7 +20,7 @@ services:
       - SERVER_PORT=8081
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
-      - local-db
+      - local-database
     ports:
       - "8081:8081"
     networks:
@@ -34,13 +36,13 @@ services:
       - SERVER_PORT=8082
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
-      - local-db
+      - local-database
     ports:
       - "8082:8082"
     networks:
       - local-net
 
-  local-db:
+  local-database:
     image: mysql:8-oracle
     container_name: local-database
     volumes:
@@ -67,6 +69,8 @@ services:
       ZOO_SERVER_JVMFLAGS: "-Xms2G -Xmx2G"
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - local-net
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -85,6 +89,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - local-net
 
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
@@ -103,6 +109,8 @@ services:
     container_name: local-redis
     ports:
       - "26379:6379"  # 호스트의 26379 포트와 컨테이너의 6379 포트(기본 Redis 포트)를 매핑
+    networks:
+      - local-net
 
   controller:
     image: ngrinder/controller:3.5.6
@@ -116,6 +124,8 @@ services:
       - "12000-12009:12000-12009"
     volumes:
       - ./ngrinder-controller:/opt/ngrinder-controller
+    networks:
+      - local-net
 
   agent:
     image: ngrinder/agent:3.5.6
@@ -125,8 +135,10 @@ services:
     restart: always
     links:
       - controller
-
+    networks:
+      - local-net
 
 networks:
   local-net:
-    driver: bridge
+    external: true
+    name: docker_local-net
