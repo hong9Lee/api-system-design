@@ -1,18 +1,8 @@
-server:
-  port: ${PORT:30080}
-  shutdown: graceful
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-    registerWithEureka: true
-    fetchRegistry: true
-  instance:
-    instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
-    preferIpAddress: true
-
 spring:
+  server:
+    port: ${PORT:30080}
+    shutdown: graceful
+
   application:
     name: discoveryWebApiService
 
@@ -50,10 +40,96 @@ spring:
           binder: rabbit
           destination: "web-defaultMessage"
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+  instance:
+    instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
+    preferIpAddress: true
+
 login:
   key: "abcdefg"
   expire: 10
 
+
+logging:
+  level:
+    org:
+      springframework:
+        amqp:
+          rabbit:
+            listener: ERROR
+            connection:
+              CachingConnectionFactory: ERROR
+      apache:
+        kafka:
+          clients: ERROR
+          client:
+            ClientUtils: ERROR
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+server:
+  port: ${PORT:30080}
+  shutdown: graceful
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://docker-eureka-server-1:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+  instance:
+    instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
+    preferIpAddress: true
+
+  application:
+    name: discoveryWebApiService
+
+  datasource:
+    url: jdbc:mysql://local-database:3306/local_db
+    username: root
+    password: 102030
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  kafka:
+    bootstrap-servers: kafka:29092
+
+  redis:
+    host: local-redis
+    port: 26379
+
+  rabbitmq:
+    host: local-rabbitmq
+    port: 25672
+    username: test_user
+    password: test
+
+  cloud:
+    function:
+      definition: defaultMessageProducer;
+    stream:
+      bindings:
+        defaultMessageProducer-out-0:
+          binder: rabbit
+          destination: "web-defaultMessage"
+
+login:
+  key: "abcdefg"
+  expire: 10
 
 logging:
   level:
