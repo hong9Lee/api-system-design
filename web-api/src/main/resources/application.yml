@@ -1,8 +1,21 @@
 server:
-  port: 30080
+  port: ${PORT:30080}
   shutdown: graceful
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+  instance:
+    instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
+    preferIpAddress: true
+
 spring:
+  application:
+    name: discoveryWebApiService
+
   datasource:
     url: jdbc:mysql://localhost:23306/local_db
     username: root

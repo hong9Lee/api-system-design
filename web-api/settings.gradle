@@ -1,1 +1,6 @@
-rootProject.name = 'api'
+rootProject.name = 'web-api'
+include ':web-shared'
+project(':web-shared').projectDir = new File(rootDir, '../web-shared')
+
+include(':web-data')
+project(':web-data').projectDir = new File(rootDir, '../web-data')

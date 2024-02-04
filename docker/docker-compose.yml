@@ -1,6 +1,33 @@
 version: "3.8"
 
 services:
+  eureka-server:
+    build:
+      context: ./eureka
+    ports:
+      - "8761:8761"
+
+  api-instance-1:
+    image: api-service-image:latest
+    build:
+      context: ./instance
+    environment:
+      - SERVER_PORT=8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    ports:
+      - "8081:8081"
+
+  api-instance-2:
+    image: api-service-image:latest
+    build:
+      context: ./instance
+    environment:
+      - SERVER_PORT=8082
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    ports:
+      - "8082:8082"
+
+
   local-db:
     image: mysql:8-oracle
     container_name: local-database
