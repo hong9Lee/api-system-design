@@ -10,41 +10,10 @@ services:
     networks:
       - local-net
 
-  api-instance-1:
-    image: api-service-image:latest
-    build:
-      context: ../
-      dockerfile: docker/instance/Dockerfile
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SERVER_PORT=8081
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - local-database
-    ports:
-      - "8081:8081"
-    networks:
-      - local-net
-
-  api-instance-2:
-    image: api-service-image:latest
-    build:
-      context: ../
-      dockerfile: docker/instance/Dockerfile
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SERVER_PORT=8082
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - local-database
-    ports:
-      - "8082:8082"
-    networks:
-      - local-net
-
   local-database:
-    image: mysql:8-oracle
+    image: mysql:8.0.12
     container_name: local-database
+    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./local-db/conf:/etc/mysql/conf.d
       - ./local-db/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -135,6 +104,38 @@ services:
     restart: always
     links:
       - controller
+    networks:
+      - local-net
+
+  api-instance-1:
+    image: api-service-image:latest
+    build:
+      context: ../
+      dockerfile: docker/instance/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - local-database
+    ports:
+      - "8081:8081"
+    networks:
+      - local-net
+
+  api-instance-2:
+    image: api-service-image:latest
+    build:
+      context: ../
+      dockerfile: docker/instance/Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8082
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - local-database
+    ports:
+      - "8082:8082"
     networks:
       - local-net
 

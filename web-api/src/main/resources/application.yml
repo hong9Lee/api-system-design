@@ -94,9 +94,10 @@ eureka:
     name: discoveryWebApiService
 
   datasource:
-    url: jdbc:mysql://local-database:3306/local_db
+    url: jdbc:mysql://local-database:3306/local_db?default-authentication-plugin=mysql_native_password
     username: root
     password: 102030
+
   jpa:
     hibernate:
       ddl-auto: update
