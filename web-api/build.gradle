@@ -64,11 +64,3 @@ tasks.named('test') {
 bootJar {
     archiveFileName = 'api.jar'
 }
-
-
-
-//dependencyManagement {
-//    imports {
-//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-//    }
-//}

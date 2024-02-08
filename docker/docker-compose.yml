@@ -10,10 +10,10 @@ services:
     networks:
       - local-net
 
-  local-database:
-    image: mysql:8.0.12
-    container_name: local-database
-    command: --default-authentication-plugin=mysql_native_password
+  mysql:
+    platform: linux/amd64
+    container_name: mysql
+    image: mysql:8-oracle
     volumes:
       - ./local-db/conf:/etc/mysql/conf.d
       - ./local-db/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -115,9 +115,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8081
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/local_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=102030
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
-      - local-database
+      - mysql
+      - eureka-server
     ports:
       - "8081:8081"
     networks:
@@ -131,9 +135,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8082
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/local_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=102030
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
-      - local-database
+      - mysql
+      - eureka-server
     ports:
       - "8082:8082"
     networks:
@@ -141,5 +149,6 @@ services:
 
 networks:
   local-net:
+    driver: bridge
     external: true
     name: docker_local-net
