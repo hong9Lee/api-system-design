@@ -18,9 +18,9 @@ repositories {
     mavenCentral()
 }
 
-//ext {
-//    set('springCloudVersion', "2021.0.4")
-//}
+ext {
+    set('springCloudVersion', "2022.0.3")
+}
 
 dependencies {
     implementation project(':web-shared')
@@ -30,7 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:3.1.6'
+
 
     // mq
     implementation 'org.springframework.cloud:spring-cloud-stream:4.0.3'
@@ -52,6 +52,8 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.bitbucket.b_c:jose4j:0.6.2'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -63,4 +65,10 @@ tasks.named('test') {
 
 bootJar {
     archiveFileName = 'api.jar'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

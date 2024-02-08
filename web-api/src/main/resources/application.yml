@@ -47,7 +47,6 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
   instance:
-    instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
     preferIpAddress: true
 
 login:
