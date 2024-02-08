@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   eureka-server:
+    container_name: eureka-server
     build:
       context: ../
       dockerfile: docker/eureka/Dockerfile
@@ -11,8 +12,8 @@ services:
       - local-net
 
   mysql:
-    platform: linux/amd64
     container_name: mysql
+    platform: linux/amd64
     image: mysql:8-oracle
     volumes:
       - ./local-db/conf:/etc/mysql/conf.d
@@ -30,8 +31,8 @@ services:
       - local-net
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
     ports:
       - "2181:2181"
     environment:
@@ -42,8 +43,8 @@ services:
       - local-net
 
   kafka:
-    image: confluentinc/cp-kafka:latest
     container_name: kafka
+    image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
@@ -62,8 +63,8 @@ services:
       - local-net
 
   rabbitmq:
-    image: rabbitmq:3.9-management-alpine
     container_name: local-rabbitmq
+    image: rabbitmq:3.9-management-alpine
     ports:
       - "25672:5672"
       - "35672:15672"
@@ -74,14 +75,15 @@ services:
       - local-net
 
   local-redis:
-    image: redis:latest
     container_name: local-redis
+    image: redis:latest
     ports:
       - "26379:6379"  # 호스트의 26379 포트와 컨테이너의 6379 포트(기본 Redis 포트)를 매핑
     networks:
       - local-net
 
   controller:
+    container_name: ngrinder-controller
     image: ngrinder/controller:3.5.6
     environment:
       JAVA_TOOL_OPTIONS: "-Xms4g -Xmx4g"
@@ -97,6 +99,7 @@ services:
       - local-net
 
   agent:
+    container_name: ngrinder-agent
     image: ngrinder/agent:3.5.6
     environment:
       JAVA_TOOL_OPTIONS: "-Xms4g -Xmx4g"
@@ -108,11 +111,13 @@ services:
       - local-net
 
   api-instance-1:
+    container_name: api-instance-1
     image: api-service-image:latest
     build:
       context: ../
       dockerfile: docker/instance/Dockerfile
     environment:
+      - APPLICATION_NAME=discoveryWebApiService1
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8081
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/local_db
@@ -128,11 +133,13 @@ services:
       - local-net
 
   api-instance-2:
+    container_name: api-instance-2
     image: api-service-image:latest
     build:
       context: ../
       dockerfile: docker/instance/Dockerfile
     environment:
+      - APPLICATION_NAME=discoveryWebApiService2
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8082
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/local_db
