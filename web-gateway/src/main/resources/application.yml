@@ -1,8 +1,7 @@
-server:
-  port: 30090
-  shutdown: graceful
-
 spring:
+  application:
+    name: GatewayService
+
   main:
     web-application-type: reactive
   cloud:
@@ -31,3 +30,51 @@ info:
 secret:
   key: "967869b7-56b8-4766-8473-7baa04a499ab"
   header: "X-Gateway-Auth"
+
+server:
+  port: 30090
+  shutdown: graceful
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  application:
+    name: GatewayDockerService
+
+  cloud:
+    gateway:
+      routes:
+        - id: api_route
+          predicates:
+            - Path=/api/**
+          uri: http://localhost:8081
+          filters:
+            - name: JwtAuthenticationFilter
+
+        - id: login_route
+          predicates:
+            - Path=/login
+          uri: http://localhost:8081
+
+        - id: coupon_route
+          predicates:
+            - Path=/coupon/**
+          uri: http://localhost:8081
+
+  info:
+    auth: http://localhost:30100
+
+  secret:
+    key: "967869b7-56b8-4766-8473-7baa04a499ab"
+    header: "X-Gateway-Auth"
+
+server:
+  port: 30091
+  shutdown: graceful
+
+logging:
+  level:
+    root: debug

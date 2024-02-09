@@ -68,6 +68,7 @@ logging:
           clients: ERROR
           client:
             ClientUtils: ERROR
+      root: debug
 
 ---
 spring:
@@ -75,9 +76,23 @@ spring:
     activate:
       on-profile: docker
 
-server:
-  port: ${PORT:30080}
-  shutdown: graceful
+  datasource:
+    url: jdbc:mysql://mysql:3306/local_db?default-authentication-plugin=mysql_native_password
+    username: root
+    password: 102030
+
+  kafka:
+    bootstrap-servers: kafka:9092
+
+  redis:
+    host: local-redis
+    port: 6379
+
+  rabbitmq:
+    host: local-rabbitmq
+    port: 5672
+    username: test_user
+    password: test
 
 eureka:
   client:
@@ -88,49 +103,6 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
     preferIpAddress: true
-
-  application:
-    name: discoveryWebApiService
-
-  datasource:
-    url: jdbc:mysql://mysql:3306/local_db?default-authentication-plugin=mysql_native_password
-    username: root
-    password: 102030
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-
-  kafka:
-    bootstrap-servers: kafka:29092
-
-  redis:
-    host: local-redis
-    port: 26379
-
-  rabbitmq:
-    host: local-rabbitmq
-    port: 25672
-    username: test_user
-    password: test
-
-  cloud:
-    function:
-      definition: defaultMessageProducer;
-    stream:
-      bindings:
-        defaultMessageProducer-out-0:
-          binder: rabbit
-          destination: "web-defaultMessage"
-
-login:
-  key: "abcdefg"
-  expire: 10
 
 logging:
   level:

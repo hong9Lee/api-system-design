@@ -1,1 +1,3 @@
 rootProject.name = 'gateway'
+include ':web-shared'
+project(':web-shared').projectDir = new File(rootDir, '../web-shared')
