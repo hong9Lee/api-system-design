@@ -97,12 +97,13 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://docker-eureka-server-1:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
     registerWithEureka: true
     fetchRegistry: true
   instance:
+    hostname: localhost # Eureka 서버에 등록될 호스트명
     instance-id: ${spring.application.name}:${server.port} # 인스턴스 ID에 애플리케이션 이름과 포트 번호를 포함
-    preferIpAddress: true
+    preferIpAddress: false
 
 logging:
   level:

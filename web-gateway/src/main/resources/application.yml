@@ -62,7 +62,7 @@ spring:
         - id: coupon_route
           predicates:
             - Path=/coupon/**
-          uri: http://localhost:8081
+          uri: lb://DISCOVERYWEBAPISERVICE
 
   info:
     auth: http://localhost:30100
@@ -71,10 +71,20 @@ spring:
     key: "967869b7-56b8-4766-8473-7baa04a499ab"
     header: "X-Gateway-Auth"
 
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8762/eureka/
+  instance:
+    preferIpAddress: true
+
+
 server:
   port: 30091
   shutdown: graceful
 
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug
