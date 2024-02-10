@@ -63,6 +63,8 @@ spring:
           predicates:
             - Path=/coupon/**
           uri: lb://DISCOVERYWEBAPISERVICE
+          filters:
+            - name: CustomLoadBalancerFilter
 
   info:
     auth: http://localhost:30100
