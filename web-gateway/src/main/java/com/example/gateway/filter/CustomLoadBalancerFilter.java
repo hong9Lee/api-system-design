@@ -13,16 +13,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class CustomLoadBalancerFilter extends AbstractGatewayFilterFactory<CustomLoadBalancerFilter.Config> {
 
-    private final CustomLoadBalancer customLoadBalancer;
+    private CustomLoadBalancer customLoadBalancer;
 
-    // CustomLoadBalancer를 주입받습니다.
     public CustomLoadBalancerFilter(CustomLoadBalancer customLoadBalancer) {
         super(Config.class);
         this.customLoadBalancer = customLoadBalancer;
     }
 
     public static class Config {
-        // 필터 구성을 위한 설정 클래스
     }
 
     @Override
@@ -35,7 +33,7 @@ public class CustomLoadBalancerFilter extends AbstractGatewayFilterFactory<Custo
             }
 
             String url = instance.getUri().toString();
-            log.info("Request URL: {}", url);
+//            log.info("Request URL: {}", url);
 
             exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR, url);
             return chain.filter(exchange);

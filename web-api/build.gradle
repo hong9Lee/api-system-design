@@ -30,8 +30,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-
-
     // mq
     implementation 'org.springframework.cloud:spring-cloud-stream:4.0.3'
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit:3.1.6'

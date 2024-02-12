@@ -72,6 +72,10 @@ spring:
   secret:
     key: "967869b7-56b8-4766-8473-7baa04a499ab"
     header: "X-Gateway-Auth"
+  data:
+    redis:
+      host: localhost
+      port: 26379
 
 eureka:
   client:

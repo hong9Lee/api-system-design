@@ -1,5 +1,6 @@
 package com.example.gateway.config;
 
+import com.example.gateway.service.DiscoveryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
@@ -12,35 +13,41 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomLoadBalancer implements ReactiveLoadBalancer<ServiceInstance> {
 
+    private final DiscoveryService discoveryService;
     private final DiscoveryClient discoveryClient;
-    private String serviceId = "DISCOVERYWEBAPISERVICE";
-    private int currentIndex = 0;
+    private final String serviceId = "DISCOVERYWEBAPISERVICE";
+    private AtomicInteger currentIndex = new AtomicInteger(0);
 
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        return Mono.just(new DefaultResponse(getNextInstance()));
+        List<ServiceInstance> instances = getRedisInstances();
+
+        if (instances.isEmpty()) {
+            return Mono.error(new IllegalStateException("No instances available for " + serviceId));
+        }
+
+        // 라운드 로빈 알고리즘을 사용.
+        ServiceInstance instance = instances.get(currentIndex.getAndUpdate(i -> (i + 1) % instances.size()));
+//        log.info("Selected instance: {} : {}", instance.getInstanceId(), instance.getPort());
+
+        return Mono.just(new DefaultResponse(instance));
     }
 
-    /** 라운드로빈 알고리즘 */
-    private ServiceInstance getNextInstance() {
-        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
-        if (instances.isEmpty()) {
-            return null;
-        }
+    /** discovery instance 캐싱 */
+    private List<ServiceInstance> getServiceInstances() {
+        return discoveryService.discoverServiceInstances(serviceId);
+    }
 
-        for (ServiceInstance instance : instances) {
-            log.info("{} = {} : {}", instance.getServiceId(), instance.getInstanceId(), instance.getPort());
-        }
-
-        ServiceInstance instance = instances.get(currentIndex % instances.size());
-        currentIndex++;
-        return instance;
+    /** discovery instance 캐싱 X */
+    private List<ServiceInstance> getRedisInstances() {
+        return discoveryClient.getInstances(serviceId);
     }
 }
 
