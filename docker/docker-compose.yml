@@ -189,6 +189,27 @@ services:
     networks:
       - local-net
 
+  api-instance-3:
+    container_name: api-instance-3
+    image: api-service-image:latest
+    build:
+      context: ../
+      dockerfile: docker/instance/Dockerfile
+    environment:
+      - APPLICATION_NAME=discoveryWebApiService
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8083
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=102030
+    #      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka-server
+    ports:
+      - "8083:8083"
+    networks:
+      - local-net
+
 networks:
   local-net:
     driver: bridge
