@@ -4,6 +4,9 @@ import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
 import io.lettuce.core.protocol.RedisCommand;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -11,6 +14,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+
 import java.time.Duration;
 
 @Configuration
@@ -58,5 +62,12 @@ public class RedisConfig {
         RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         return template;
+    }
+
+    @Bean
+    public RedissonClient redissonClient(RedisProps redisProps) {
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://" + redisProps.getRedisHost() + ":" + redisProps.getRedisPort());
+        return Redisson.create(config);
     }
 }

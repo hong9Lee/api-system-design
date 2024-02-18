@@ -99,53 +99,6 @@ services:
     networks:
       - local-net
 
-#  agent-1:
-#    container_name: ngrinder-agent-1
-#    image: ngrinder/agent:latest
-#    platform: linux/amd64
-#    environment:
-#      - TZ=Asia/Seoul
-#    sysctls:
-#      - net.core.somaxconn=65000
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#      nproc:
-#        soft: 1024000
-#        hard: 1024000
-#      nofile:
-#        soft: 1024000
-#        hard: 1024000
-#    restart: always
-#    links:
-#      - controller
-#    networks:
-#      - local-net
-#  agent-2:
-#    container_name: ngrinder-agent-2
-#    image: ngrinder/agent:latest
-#    platform: linux/amd64
-#    environment:
-#      - TZ=Asia/Seoul
-#    sysctls:
-#      - net.core.somaxconn=65000
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#      nproc:
-#        soft: 1024000
-#        hard: 1024000
-#      nofile:
-#        soft: 1024000
-#        hard: 1024000
-#    restart: always
-#    links:
-#      - controller
-#    networks:
-#      - local-net
-
 
   api-instance-1:
     container_name: api-instance-1

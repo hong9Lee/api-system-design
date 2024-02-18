@@ -17,9 +17,18 @@ public class CouponController {
     private final CouponService couponService;
 
     @PostMapping("/coupon/issue")
-    public ResponseEntity couponIssue(@RequestBody CouponIssueVO couponIssueVO) {
+    public ResponseEntity<String> couponIssue(@RequestBody CouponIssueVO couponIssueVO) {
         log.info("CouponController couponIssue userId:{}", couponIssueVO.getUserId());
-        couponService.issue(couponIssueVO);
+
+        /** 순차적으로 처리 */
+//        couponService.issue(couponIssueVO);
+
+        /** 쿠폰 발급 로직 비동기 큐 사용 */
+//        couponService.issueAsync(couponIssueVO);
+
+        /** 분산 락과 kafka 로직 비동기 처리 */
+        couponService.tryLockCouponIssue(couponIssueVO);
+
         return ResponseEntity.ok("OK");
     }
 }

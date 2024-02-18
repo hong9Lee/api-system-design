@@ -1,7 +1,7 @@
 spring:
-#  server:
-#    port: ${PORT:30080}
-#    shutdown: graceful
+  server:
+    port: ${PORT:30080}
+    shutdown: graceful
 
   application:
     name: ${APPLICATION_NAME:discoveryWebApiService}
@@ -69,10 +69,6 @@ logging:
           client:
             ClientUtils: ERROR
       root: debug
-
-server:
-  port: ${PORT:30080}
-  shutdown: graceful
 
 ---
 spring:

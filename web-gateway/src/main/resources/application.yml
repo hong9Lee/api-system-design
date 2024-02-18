@@ -23,6 +23,10 @@ spring:
           predicates:
             - Path=/coupon/**
           uri: http://localhost:30080
+  data:
+    redis:
+      host: localhost
+      port: 26379
 
 info:
   auth: http://localhost:30100
