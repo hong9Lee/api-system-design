@@ -19,10 +19,21 @@ spring:
             - Path=/login
           uri: http://localhost:30080
 
+        - id: coupon_route_with_userId
+          predicates:
+            - Path=/coupon/**
+            - Query=userId
+          uri: http://localhost:30080
+          filters:
+            - name: QueueHandlingFilter
+
         - id: coupon_route
           predicates:
             - Path=/coupon/**
           uri: http://localhost:30080
+
+
+
   data:
     redis:
       host: localhost
@@ -35,10 +46,22 @@ secret:
   key: "967869b7-56b8-4766-8473-7baa04a499ab"
   header: "X-Gateway-Auth"
 
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8762/eureka/
+  instance:
+    preferIpAddress: true
+
 server:
   port: 30090
   shutdown: graceful
 
+logging:
+  level:
+    com.example.gateway.filter: INFO
 ---
 spring:
   config:
@@ -69,6 +92,14 @@ spring:
           uri: lb://DISCOVERYWEBAPISERVICE
 #          filters:
 #            - name: CustomLoadBalancerFilter
+
+        - id: coupon_route_with_userId
+          uri: lb://DISCOVERYWEBAPISERVICE
+          predicates:
+            - Path=/coupon/**
+            - Query=userId
+          filters:
+            - name: QueueHandlingFilter
 
   info:
     auth: http://localhost:30100
