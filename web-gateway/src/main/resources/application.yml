@@ -86,12 +86,21 @@ spring:
             - Path=/login
           uri: http://localhost:8081
 
+        ##################################################################
+        # api rate limiter endpoints
+        ##################################################################
         - id: coupon_route
           predicates:
             - Path=/coupon/**
           uri: lb://DISCOVERYWEBAPISERVICE
 #          filters:
 #            - name: CustomLoadBalancerFilter
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5  # 초당 5개의 요청을 허용
+                redis-rate-limiter.burstCapacity: 10 # 최대 버스트 용량
+                key-resolver: "#{@userKeyResolver}"   # KeyResolver 설정
 
         - id: coupon_route_with_userId
           uri: lb://DISCOVERYWEBAPISERVICE
